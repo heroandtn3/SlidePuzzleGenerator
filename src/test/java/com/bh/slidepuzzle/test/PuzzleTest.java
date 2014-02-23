@@ -21,7 +21,12 @@
  */
 package com.bh.slidepuzzle.test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import junit.framework.TestCase;
+
+import org.junit.Test;
 
 import com.bh.slidepuzzle.utils.SlidePuzzleGenerator;
 
@@ -31,7 +36,7 @@ import com.bh.slidepuzzle.utils.SlidePuzzleGenerator;
  */
 public class PuzzleTest extends TestCase {
 
-	private SlidePuzzleGenerator slidePuzzleGenerator;
+	private static SlidePuzzleGenerator slidePuzzleGenerator;
 	private int[][] input;
 
 	/**
@@ -42,61 +47,109 @@ public class PuzzleTest extends TestCase {
 		slidePuzzleGenerator = new SlidePuzzleGenerator();
 	}
 	
-	public void testCountInversion() {
+	private static int totalInversion(int[][] input) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method method = SlidePuzzleGenerator.class.
+				getDeclaredMethod("totalInversion", int[][].class);
+		method.setAccessible(true);
+		Object[] params = {input};
+		int val = (int) method.invoke(slidePuzzleGenerator, params);
+		return val;
+	}
+	
+	
+	@Test
+	public void testTotalInversion() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		input = new int[][] {
 				{1, 2},
 				{3, 0}
 			};
-		assertEquals(0, slidePuzzleGenerator.totalInversion(input));
+		assertEquals(0, totalInversion(input));
 		
 		input = new int[][] {
 				{2, 3},
 				{1, 0}
 		};
-		assertEquals(2, slidePuzzleGenerator.totalInversion(input));
+		assertEquals(2, totalInversion(input));
 		
 		input = new int[][] {
 				{0, 3},
 				{1, 2}
 			};
-		assertEquals(2, slidePuzzleGenerator.totalInversion(input));
+		assertEquals(2, totalInversion(input));
 		
 		input = new int[][] {
 				{1,  8,  5},
 				{3,  6,  0},
 				{4,  7,  2}
 		};
-		assertEquals(0, slidePuzzleGenerator.countInversions(input, 1, 2));
-		assertEquals(14, slidePuzzleGenerator.totalInversion(input));
+		assertEquals(14, totalInversion(input));
 	}
 	
-	public void testResovable() {
+	private static int countInversions(int[][] input, int row, int col) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method method = SlidePuzzleGenerator.class.
+				getDeclaredMethod("countInversions", int[][].class, int.class, int.class);
+		method.setAccessible(true);
+		int val = (int) method.invoke(slidePuzzleGenerator, input, row, col);
+		return val;
+	}
+	
+	@Test
+	public void testCountInversion() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		input = new int[][] {
+				{1,  8,  5},
+				{3,  6,  0},
+				{4,  7,  2}
+		};
+		assertEquals(0, countInversions(input, 1, 2));
+	}
+	
+	private static boolean isSolvable(int[][] input) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method method = SlidePuzzleGenerator.class.
+				getDeclaredMethod("isSolvable", int[][].class);
+		method.setAccessible(true);
+		Object[] params = {input};
+		boolean val = (boolean) method.invoke(slidePuzzleGenerator, params);
+		return val;
+	}
+	
+	@Test
+	public void testIsSovable() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		input = new int[][] {
 				{0, 3},
 				{1, 2}
 			};
-		assertEquals(false, slidePuzzleGenerator.isSolvable(input));
+		assertEquals(false, isSolvable(input));
 		
 		input = new int[][] {
 			{1, 0},
 			{3, 2}
 		};
-		assertEquals(true, slidePuzzleGenerator.isSolvable(input));
+		assertEquals(true, isSolvable(input));
 		
 		input = new int[][] {
 				{3,  0,  4},
 				  {2,  5,  1}
 		};
-		assertEquals(true, slidePuzzleGenerator.isSolvable(input));
+		assertEquals(true, isSolvable(input));
 	}
 	
-	public void testWhereIsEmptyElement() {
+	private static int[] whereIsEmptyElement(int[][] input) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method method = SlidePuzzleGenerator.class.
+				getDeclaredMethod("whereIsEmptyElement", int[][].class);
+		method.setAccessible(true);
+		Object[] params = {input};
+		int[] val = (int[]) method.invoke(slidePuzzleGenerator, params);
+		return val;
+	}
+	
+	@Test
+	public void testWhereIsEmptyElement() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		int[] emptyElement;
 		input = new int[][] {
 				{0, 3},
 				{1, 2}
 			};
-		emptyElement = slidePuzzleGenerator.whereIsEmptyElement(input);
+		emptyElement = whereIsEmptyElement(input);
 		assertEquals(0, emptyElement[0]);
 		assertEquals(0, emptyElement[1]);
 		
@@ -105,9 +158,21 @@ public class PuzzleTest extends TestCase {
 				{3,  6,  0},
 				{4,  7,  2}
 		};
-		emptyElement = slidePuzzleGenerator.whereIsEmptyElement(input);
+		emptyElement = whereIsEmptyElement(input);
 		assertEquals(1, emptyElement[0]);
 		assertEquals(2, emptyElement[1]);
+	}
+	
+	@Test
+	public void generate() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		assertEquals(true, isSolvable(slidePuzzleGenerator.generate(0, 0)));
+		assertEquals(true, isSolvable(slidePuzzleGenerator.generate(1, 0)));
+		assertEquals(true, isSolvable(slidePuzzleGenerator.generate(0, 1)));
+		assertEquals(true, isSolvable(slidePuzzleGenerator.generate(3, 3)));
+		assertEquals(true, isSolvable(slidePuzzleGenerator.generate(3, 4)));
+		assertEquals(true, isSolvable(slidePuzzleGenerator.generate(3, 5)));
+		assertEquals(true, isSolvable(slidePuzzleGenerator.generate(4, 6)));
+		assertEquals(true, isSolvable(slidePuzzleGenerator.generate(9, 9)));
 	}
 
 }

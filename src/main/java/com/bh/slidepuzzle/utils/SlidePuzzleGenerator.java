@@ -36,7 +36,6 @@ public class SlidePuzzleGenerator {
 	 * 
 	 */
 	public SlidePuzzleGenerator() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -115,7 +114,7 @@ public class SlidePuzzleGenerator {
 		}
 	}
 	
-	public int countInversions(int[][] input, int row, int col) {
+	private int countInversions(int[][] input, int row, int col) {
 		int rows = input.length;
 		int cols = input[0].length;
 		int size = rows * cols;
@@ -135,7 +134,7 @@ public class SlidePuzzleGenerator {
 		return count;
 	}
 	
-	public int totalInversion(int[][] input) {
+	private int totalInversion(int[][] input) {
 		int rows = input.length;
 		int cols = input[0].length;
 		
@@ -150,7 +149,7 @@ public class SlidePuzzleGenerator {
 		return inversions;
 	}
 	
-	public boolean isSolvable(int[][] input) {
+	private boolean isSolvable(int[][] input) {
 		int rows = input.length;
 		int cols = input[0].length;
 		
@@ -165,7 +164,7 @@ public class SlidePuzzleGenerator {
 		}
 	}
 	
-	public int[] whereIsEmptyElement(int[][] input) {
+	private int[] whereIsEmptyElement(int[][] input) {
 		int rows = input.length;
 		int cols = input[0].length;
 		for (int row = 0; row < rows; ++row) {
