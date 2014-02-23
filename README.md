@@ -7,7 +7,7 @@ A utility to generate slide puzzle
 
 Download `.jar` files from [here](https://github.com/heroandtn3/SlidePuzzleGenerator/releases) then add to your class path.
 
-Add to your GWT module file:
+To use with GWT, add to your GWT module file:
 
 `<inherits name="com.bh.slidepuzzle.SlidePuzzleGenerator"/>`
 
